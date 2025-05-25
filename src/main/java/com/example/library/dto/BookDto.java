@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthResponse {
-    private String token;
+public class BookDto {
+    private Long id;
+    private String author;
+    private String genre;
+    private String title;
+    private int year;
 }

@@ -23,7 +23,13 @@ public class UserService implements UserDetailsService {
             throw new RuntimeException("Пользователь уже существует");
         }
 
-        User user = new User(username, passwordEncoder.encode(password));
+        // User user = new User(username, passwordEncoder.encode(password), "ROLE_USER");
+        User user = User.builder()
+            .username(username)
+            .password(passwordEncoder.encode(password))
+            .role("ROLE_USER")
+            .build();
+
         userRepository.save(user);
         return "Пользователь зарегистрирован!";
     }

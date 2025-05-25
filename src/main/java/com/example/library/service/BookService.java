@@ -1,8 +1,15 @@
 package com.example.library.service;
 
+import com.example.library.dto.BookDto;
+import com.example.library.mapper.BookMapper;
 import com.example.library.model.Book;
 import com.example.library.repository.BookRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -23,17 +30,20 @@ public class BookService {
             .orElseThrow(() -> new RuntimeException("Книга не найдена"));
     }
 
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public Page<BookDto> getAllBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable)
+                .map(BookMapper::toDto);
     }
 
-    public List<Book> getBooksByGenre(String genre) {
-        return bookRepository.findByGenre(genre);
+    public Page<BookDto> getBooksByGenre(String genre, Pageable pageable) {
+        return bookRepository.findByGenre(genre, pageable)
+                .map(BookMapper::toDto);
     }
 
     // Поиск книг по нескольким параметрам
-    public List<Book> searchBooks(String title, String author, String genre, Integer year) {
-        return bookRepository.findByFilters(title, author, genre, year);
+    public Page<BookDto> searchBooks(String title, String author, String genre, Integer year, Pageable pageable) {
+        return bookRepository.findByFilters(title, author, genre, year, pageable)
+                .map(BookMapper::toDto);
     }
 
     // Добавление новой книги

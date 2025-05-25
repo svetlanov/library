@@ -27,7 +27,7 @@ public class UserBookService {
     }
 
     public Boolean userHasBook(User user, Book book) {
-        return userBookRepository.hasBook(user.getUserId(), book.getId());
+        return userBookRepository.hasBook(user.getId(), book.getId());
     }
 
     public UserBook addUserBook(User user, Book book) {
